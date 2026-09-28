@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Executive Intelligence — iCloud Sync Test</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f6f8;color:#172033;margin:0;padding:24px 16px}main{max-width:720px;margin:auto}.card{background:#fff;border:1px solid #dfe3e8;border-radius:16px;padding:20px;margin:14px 0}.row{display:grid;grid-template-columns:150px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #edf0f3}.label{font-weight:700}button,label.file{width:100%;box-sizing:border-box;border:0;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:700;margin-top:10px;text-align:center;display:block}.primary{background:#123d6a;color:#fff}.file{background:#e9eef4;color:#123d6a}input[type=file]{display:none}.status{margin-top:12px;padding:12px;border-radius:10px;background:#f2f5f8}.small{font-size:13px;color:#667085}#result{display:none}@media(max-width:520px){.row{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>Executive Intelligence</h1><p><strong>iCloud Sync Test</strong><br>Fake data only. This page does not connect to the live Executive Intelligence records.</p>
+<section class="card"><h2>TEST-001 — Fake City High Middle Visit</h2>
+<div class="row"><div class="label">School</div><div>City High Middle School</div></div>
+<div class="row"><div class="label">Notes</div><div>TEST ONLY — Observed strong hallway transitions.</div></div>
+<div class="row"><div class="label">Building voice</div><div>TEST ONLY — Staff would like additional planning time.</div></div>
+<div class="row"><div class="label">Follow-up</div><div>TEST ONLY — Send test resource.</div></div>
+<button class="primary" id="share">Save / Share TEST-001</button><div class="status" id="ss">Ready to test.</div>
+<p class="small">On iPhone/iPad, choose Save to Files, then an iCloud Drive folder. If file sharing is unavailable, the page downloads the same JSON file.</p></section>
+<section class="card"><h2>Import from iCloud</h2><label class="file" for="pick">Choose TEST-001 File</label><input id="pick" type="file" accept=".json,application/json"><div class="status" id="is">No file imported yet.</div></section>
+<section class="card" id="result"><h2>Imported record</h2><div id="body"></div></section>
+<script>
+const r={schema:"grps-executive-intelligence-test-v1",visitId:"TEST-001",school:"City High Middle School",visitDate:"2026-09-28",notes:"TEST ONLY — Observed strong hallway transitions.",buildingVoice:"TEST ONLY — Staff would like additional planning time.",followUp:"TEST ONLY — Send test resource.",owner:"Mel",dueDate:"2026-10-02",testOnly:true};
+const f=()=>new File([JSON.stringify(r,null,2)],"Executive-Intelligence-TEST-001.json",{type:"application/json"});
+share.onclick=async()=>{let x=f();try{if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[x]}))){await navigator.share({title:"Executive Intelligence TEST-001",files:[x]});ss.textContent="Share completed/opened. If saved to iCloud Drive, continue on the second device."}else{let u=URL.createObjectURL(x),a=document.createElement("a");a.href=u;a.download=x.name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);ss.textContent="Downloaded TEST-001. Save/move it to iCloud Drive in Files."}}catch(e){ss.textContent=e.name==="AbortError"?"Share canceled. Nothing was saved.":"Share failed: "+e.message}};
+pick.onchange=async e=>{try{let d=JSON.parse(await e.target.files[0].text());if(d.schema!==r.schema||d.visitId!=="TEST-001"||d.testOnly!==true)throw Error("Not the expected TEST-001 file.");is.textContent="Success — TEST-001 was read from the selected file.";body.innerHTML=[["Visit ID",d.visitId],["School",d.school],["Visit date",d.visitDate],["Notes",d.notes],["Building voice",d.buildingVoice],["Follow-up",d.followUp],["Owner",d.owner],["Due date",d.dueDate]].map(x=>'<div class="row"><div class="label">'+x[0]+'</div><div>'+x[1]+'</div></div>').join("");result.style.display="block"}catch(err){is.textContent="Import failed: "+err.message;result.style.display="none"}};
+</script></main></body></html>
